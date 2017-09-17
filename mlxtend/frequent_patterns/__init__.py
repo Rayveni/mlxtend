@@ -4,6 +4,7 @@
 #
 # License: BSD 3 clause
 
-from .tf_kmeans import TfKmeans
+from .apriori import apriori
+from .association_rules import association_rules
 
-__all__ = ["TfKmeans"]
+__all__ = ["apriori", "association_rules"]

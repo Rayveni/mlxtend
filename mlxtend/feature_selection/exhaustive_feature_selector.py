@@ -11,15 +11,32 @@ import numpy as np
 import scipy as sp
 import scipy.stats
 import sys
+import operator as op
 from copy import deepcopy
 from itertools import combinations
 from itertools import chain
+from functools import reduce
 from sklearn.metrics import get_scorer
 from sklearn.base import clone
 from sklearn.base import BaseEstimator
 from sklearn.base import MetaEstimatorMixin
 from ..externals.name_estimators import _name_estimators
 from sklearn.model_selection import cross_val_score
+from sklearn.externals.joblib import Parallel, delayed
+
+
+def _calc_score(selector, X, y, indices):
+    if selector.cv:
+        scores = cross_val_score(selector.est_,
+                                 X[:, indices], y,
+                                 cv=selector.cv,
+                                 scoring=selector.scorer,
+                                 n_jobs=1,
+                                 pre_dispatch=selector.pre_dispatch)
+    else:
+        selector.est_.fit(X[:, indices], y)
+        scores = np.array([selector.scorer(selector.est_, X[:, indices], y)])
+    return indices, scores
 
 
 class ExhaustiveFeatureSelector(BaseEstimator, MetaEstimatorMixin):
@@ -51,10 +68,11 @@ class ExhaustiveFeatureSelector(BaseEstimator, MetaEstimatorMixin):
         otherwise.
         No cross-validation if cv is None, False, or 0.
     n_jobs : int (default: 1)
-        The number of CPUs to use for cross validation. -1 means 'all CPUs'.
+        The number of CPUs to use for evaluating different feature subsets
+        in parallel. -1 means 'all CPUs'.
     pre_dispatch : int, or string (default: '2*n_jobs')
         Controls the number of jobs that get dispatched
-        during parallel execution in cross_val_score.
+        during parallel execution if `n_jobs > 1` or `n_jobs=-1`.
         Reducing this number can be useful to avoid an explosion of
         memory consumption when more jobs get dispatched than CPUs can process.
         This parameter can be:
@@ -141,14 +159,45 @@ class ExhaustiveFeatureSelector(BaseEstimator, MetaEstimatorMixin):
         if self.max_features < self.min_features:
             raise AttributeError('min_features must be <= max_features')
 
-        candidates = list(chain(*((combinations(range(X.shape[1]), r=i))
+        candidates = chain(*((combinations(range(X.shape[1]), r=i))
                           for i in range(self.min_features,
-                                         self.max_features + 1))))
+                                         self.max_features + 1)))
 
         self.subsets_ = {}
-        all_comb = len(candidates)
-        for iteration, c in enumerate(candidates):
-            cv_scores = self._calc_score(X=X, y=y, indices=c)
+        
+        def ncr(n, r):
+            """Return the number of combinations of length r from n items.
+            
+            Parameters
+            ----------
+            n : {integer}
+            Total number of items
+            r : {integer}
+            Number of items to select from n
+            
+            Returns
+            -------
+            Number of combinations, integer
+            
+            """
+            
+            r = min(r, n-r)
+            if r == 0:
+                return 1
+            numer = reduce(op.mul, range(n, n-r, -1))
+            denom = reduce(op.mul, range(1, r+1))
+            return numer//denom
+        
+        all_comb = np.sum([ncr(n=X.shape[1], r=i)
+                           for i in range(self.min_features,
+                                          self.max_features + 1)])
+        
+        n_jobs = min(self.n_jobs, all_comb)
+        parallel = Parallel(n_jobs=n_jobs, pre_dispatch=self.pre_dispatch)
+        work = enumerate(parallel(delayed(_calc_score)(self, X, y, c)
+                                  for c in candidates))
+
+        for iteration, (c, cv_scores) in work:
 
             self.subsets_[iteration] = {'feature_idx': c,
                                         'cv_scores': cv_scores,
@@ -172,19 +221,6 @@ class ExhaustiveFeatureSelector(BaseEstimator, MetaEstimatorMixin):
         self.subsets_plus_ = dict()
         self.fitted = True
         return self
-
-    def _calc_score(self, X, y, indices):
-        if self.cv:
-            scores = cross_val_score(self.est_,
-                                     X[:, indices], y,
-                                     cv=self.cv,
-                                     scoring=self.scorer,
-                                     n_jobs=self.n_jobs,
-                                     pre_dispatch=self.pre_dispatch)
-        else:
-            self.est_.fit(X[:, indices], y)
-            scores = np.array([self.scorer(self.est_, X[:, indices], y)])
-        return scores
 
     def transform(self, X):
         """Return the best selected features from X.

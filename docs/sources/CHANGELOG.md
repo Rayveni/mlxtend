@@ -5,12 +5,83 @@
 The CHANGELOG for the current development version is available at
 [https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md](https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md).
 
+### Version 0.8.1dev (TBD)
 
 
-### Version 0.6.0 (TBD)
+##### Downloads
 
-The CHANGELOG for the current development version is available at
-[https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md](https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md).
+- [Source code (zip)](https://github.com/rasbt/mlxtend/archive/v0.8.1.zip)
+- [Source code (tar.gz)](https://github.com/rasbt/mlxtend/archive/v0.8.1.tar.gz)
+
+##### New Features
+
+- Added `evaluate.permutation_test`, a permutation test for hypothesis testing (or A/B testing) to test if two samples come from the same distribution. Or in other words, a procedure to test the null hypothesis that that two groups are not significantly different (e.g., a treatment and a control group). 
+
+##### Changes
+
+- The `'support'` column returned by `frequent_patterns.association_rules` was changed to compute the support of "antecedant union consequent", and new `antecedant support'` and `'consequent support'` column were added to avoid ambiguity. 
+- Added `'leverage'` as an evaluation metric for `frequent_patterns.association_rules`
+
+##### Bug Fixes
+
+- 
+
+
+### Version 0.8.0 (2017-09-09)
+
+
+##### Downloads
+
+- [Source code (zip)](https://github.com/rasbt/mlxtend/archive/v0.8.0.zip)
+- [Source code (tar.gz)](https://github.com/rasbt/mlxtend/archive/v0.8.0.tar.gz)
+
+##### New Features
+
+- Added a `mlxtend.evaluate.bootstrap` that implements the ordinary nonparametric bootstrap to bootstrap a single statistic (for example, the mean. median, R^2 of a regression fit, and so forth) [#232](https://github.com/rasbt/mlxtend/pull/232)
+- `SequentialFeatureSelecor`'s `k_features` now accepts a string argument "best" or "parsimonious" for more "automated" feature selection. For instance, if "best" is provided, the feature selector will return the feature subset with the best cross-validation performance. If "parsimonious" is provided as an argument, the smallest feature subset that is within one standard error of the cross-validation performance will be selected. [#238](https://github.com/rasbt/mlxtend/pull/238)
+
+##### Changes
+
+- `SequentialFeatureSelector` now uses `np.nanmean` over normal mean to support scorers that may return `np.nan`  [#211](https://github.com/rasbt/mlxtend/pull/211) (via [mrkaiser](https://github.com/mrkaiser))
+- The `skip_if_stuck` parameter was removed from `SequentialFeatureSelector` in favor of a more efficient implementation comparing the conditional inclusion/exclusion results (in the floating versions) to the performances of previously sampled feature sets that were cached [#237](https://github.com/rasbt/mlxtend/pull/237)
+- `ExhaustiveFeatureSelector` was modified to consume substantially less memory [#195](https://github.com/rasbt/mlxtend/pull/195) (via [Adam Erickson](https://github.com/adam-erickson))
+
+##### Bug Fixes
+
+- Fixed a bug where the `SequentialFeatureSelector` selected a feature subset larger than then specified via the `k_features` tuple max-value [#213](https://github.com/rasbt/mlxtend/pull/213)
+
+
+### Version 0.7.0 (2017-06-22)
+
+
+
+##### Downloads
+
+- [Source code (zip)](https://github.com/rasbt/mlxtend/archive/v0.7.0.zip)
+- [Source code (tar.gz)](https://github.com/rasbt/mlxtend/archive/v0.7.0.tar.gz)
+
+##### New Features
+
+- New [mlxtend.plotting.ecdf](http://rasbt.github.io/mlxtend/user_guide/plotting/ecdf/) function for plotting empirical cumulative distribution functions ([#196](https://github.com/rasbt/mlxtend/pull/196)).
+- New [`StackingCVRegressor`](http://rasbt.github.io/mlxtend/user_guide/regressor/StackingCVRegressor/) for stacking regressors with out-of-fold predictions to prevent overfitting ([#201](https://github.com/rasbt/mlxtend/pull/201)via [Eike Dehling](https://github.com/EikeDehling)).
+
+##### Changes
+
+- The TensorFlow estimator have been removed from mlxtend, since TensorFlow has now very convenient ways to build on estimators, which render those implementations obsolete.
+- `plot_decision_regions` now supports plotting decision regions for more than 2 training features [#189](https://github.com/rasbt/mlxtend/pull/189), via [James Bourbeau](https://github.com/jrbourbeau)).
+- Parallel execution in `mlxtend.feature_selection.SequentialFeatureSelector` and `mlxtend.feature_selection.ExhaustiveFeatureSelector` is now performed over different feature subsets instead of the different cross-validation folds to better utilize machines with multiple processors if the number of features is large ([#193](https://github.com/rasbt/mlxtend/pull/193), via [@whalebot-helmsman](https://github.com/whalebot-helmsman)).
+- Raise meaningful error messages if pandas `DataFrame`s or Python lists of lists are fed into the `StackingCVClassifer` as a `fit` arguments ([198](https://github.com/rasbt/mlxtend/pull/198)).
+- The `n_folds` parameter of the `StackingCVClassifier` was changed to `cv` and can now accept any kind of cross validation technique that is available from scikit-learn. For example, `StackingCVClassifier(..., cv=StratifiedKFold(n_splits=3))` or `StackingCVClassifier(..., cv=GroupKFold(n_splits=3))` ([#203](https://github.com/rasbt/mlxtend/pull/203), via [Konstantinos Paliouras](https://github.com/sque)).
+
+##### Bug Fixes
+
+- `SequentialFeatureSelector` now correctly accepts a `None` argument for the `scoring` parameter to infer the default scoring metric from scikit-learn classifiers and regressors ([#171](https://github.com/rasbt/mlxtend/pull/171)).
+- The `plot_decision_regions` function now supports pre-existing axes objects generated via matplotlib's `plt.subplots`. ([#184](https://github.com/rasbt/mlxtend/pull/184), [see example](http://rasbt.github.io/mlxtend/user_guide/plotting/plot_decision_regions/#example-6-working-with-existing-axes-objects-using-subplots))
+- Made `math.num_combinations` and `math.num_permutations` numerically stable for large numbers of combinations and permutations ([#200](https://github.com/rasbt/mlxtend/pull/200)).
+
+
+### Version 0.6.0 (2017-03-18)
+
 
 ##### Downloads
 
@@ -19,22 +90,21 @@ The CHANGELOG for the current development version is available at
 
 ##### New Features
 
-- -
+- An `association_rules` function is implemented that allows to generate rules based on a list of frequent itemsets (via [Joshua Goerner](https://github.com/JoshuaGoerner)).
 
 ##### Changes
 
 - Adds a black `edgecolor` to plots via `plotting.plot_decision_regions` to make markers more distinguishable from the background in `matplotlib>=2.0`.
+- The `association` submodule was renamed to `frequent_patterns`.
 
 ##### Bug Fixes
 
-- -
+- The `DataFrame` index of `apriori` results are now unique and ordered.
+- Fixed typos in autompg and wine datasets (via [James Bourbeau](https://github.com/jrbourbeau)).
 
 
 ### Version 0.5.1 (2017-02-14)
 
-
-The CHANGELOG for the current development version is available at
-[https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md](https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md).
 
 ##### Downloads
 
@@ -136,18 +206,18 @@ imput arrays via `transform` and `fit_transform`
 
 ##### New Features
 
-- New TensorFlow estimator for Linear Regression ([`tf_regressor.TfLinearRegression`](./user_guide/tf_regressor/TfLinearRegression.md))
+- New TensorFlow estimator for Linear Regression (`tf_regressor.TfLinearRegression`)
 - New k-means clustering estimator ([`cluster.Kmeans`](./user_guide/cluster/Kmeans.md))
-- New TensorFlow k-means clustering estimator ([`tf_cluster.Kmeans`](./user_guide/tf_cluster/TfKmeans.md))
+- New TensorFlow k-means clustering estimator (`tf_cluster.Kmeans`)
 
 ##### Changes
 
 - Due to refactoring of the estimator classes, the `init_weights` parameter of the `fit` methods was globally renamed to `init_params`
 - Overall performance improvements of estimators due to code clean-up and refactoring
 - Added several additional checks for correct array types and more meaningful exception messages
-- Added optional `dropout` to the [`tf_classifier.TfMultiLayerPerceptron`](./user_guide/tf_classifier/TfMultiLayerPerceptron.md) classifier for regularization
-- Added an optional `decay` parameter to the [`tf_classifier.TfMultiLayerPerceptron`](./user_guide/tf_classifier/TfMultiLayerPerceptron.md) classifier for adaptive learning via an exponential decay of the learning rate eta
-- Replaced old `NeuralNetMLP` by more streamlined `MultiLayerPerceptron` ([`classifier.MultiLayerPerceptron`](./user_guide/classifier/MultiLayerPerceptron.md)); now also with softmax in the output layer and categorical cross-entropy loss.
+- Added optional `dropout` to the `tf_classifier.TfMultiLayerPerceptron` classifier for regularization
+- Added an optional `decay` parameter to the `tf_classifier.TfMultiLayerPerceptron` classifier for adaptive learning via an exponential decay of the learning rate eta
+- Replaced old `NeuralNetMLP` by more streamlined `MultiLayerPerceptron` (`classifier.MultiLayerPerceptron`); now also with softmax in the output layer and categorical cross-entropy loss.
 - Unified `init_params` parameter for fit functions to continue training where the algorithm left off (if supported)
 
 ### Version 0.4.0 (2016-04-09)
@@ -155,9 +225,9 @@ imput arrays via `transform` and `fit_transform`
 ##### New Features
 
 
-- New `TfSoftmaxRegression` classifier using Tensorflow ([`tf_classifier.TfSoftmaxRegression`](./user_guide/tf_classifier/TfSoftmaxRegression.md))
-- New `SoftmaxRegression` classifier ([`classifier.SoftmaxRegression`](./user_guide/classifier/SoftmaxRegression.md))
-- New `TfMultiLayerPerceptron` classifier using Tensorflow ([`tf_classifier.TfMultiLayerPerceptron`](./user_guide/tf_classifier/TfMultiLayerPerceptron.md))
+- New `TfSoftmaxRegression` classifier using Tensorflow (`tf_classifier.TfSoftmaxRegression`)
+- New `SoftmaxRegression` classifier (`classifier.SoftmaxRegression`)
+- New `TfMultiLayerPerceptron` classifier using Tensorflow (`tf_classifier.TfMultiLayerPerceptron`)
 - New `StackingRegressor` ([`regressor.StackingRegressor`](./user_guide/regressor/StackingRegressor.md))
 - New `StackingClassifier` ([`classifier.StackingClassifier`](./user_guide/classifier/StackingClassifier.md))
 - New function for one-hot encoding of class labels ([`preprocessing.one_hot`](./user_guide/preprocessing/one-hot_encoding.md))

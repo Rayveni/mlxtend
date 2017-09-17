@@ -6,14 +6,12 @@
 [![PyPI version](https://badge.fury.io/py/mlxtend.svg)](http://badge.fury.io/py/mlxtend)
 [![Coverage Status](https://coveralls.io/repos/rasbt/mlxtend/badge.svg?branch=master&service=github)](https://coveralls.io/github/rasbt/mlxtend?branch=master)
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
-![Python 3.5](https://img.shields.io/badge/python-3.5-blue.svg)
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)
 ![License](https://img.shields.io/badge/license-BSD-blue.svg)
-[![Join the chat at https://gitter.im/rasbt/mlxtend](https://badges.gitter.im/rasbt/mlxtend.svg)](https://gitter.im/rasbt/mlxtend?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![](https://zenodo.org/badge/doi/10.5281/zenodo.49235.svg)](https://zenodo.org/record/49235#.VwWISmNh23c)
-
+[![](https://zenodo.org/badge/doi/10.5281/zenodo.594432.svg)](https://zenodo.org/record/594432#.VwWISmNh23c)
+[![Discuss](https://img.shields.io/badge/discuss-google_group-blue.svg)](https://groups.google.com/forum/#!forum/mlxtend)
 
 ![](./docs/sources/img/logo.png)
-
 
 
 **Mlxtend (machine learning extensions) is a Python library of useful tools for the day-to-day data science tasks.**
@@ -41,17 +39,6 @@ Sebastian Raschka 2014-2017
 <br>
 
 
-<hr>
-## Recent changes
-
-- Sequential Feature Selection algorithms: [SFS](http://rasbt.github.io/mlxtend/docs/feature_selection/sequential_forward_selection/), [SFFS](http://rasbt.github.io/mlxtend/docs/feature_selection/sequential_floating_forward_selection/), and [SFBS](http://rasbt.github.io/mlxtend/docs/feature_selection/sequential_floating_backward_selection/)
-- [Neural Network / Multilayer Perceptron classifier](http://rasbt.github.io/mlxtend/docs/classifier/neuralnet_mlp/)
-- [Ordinary least square regression](http://rasbt.github.io/mlxtend/docs/regression/linear_regression/) using different solvers (gradient and stochastic gradient descent, and the closed form solution)
-
-<hr>
-<br>
-
-
 ## Installing mlxtend
 
 #### PyPI
@@ -66,6 +53,13 @@ Alternatively, you could download the package manually from the Python Package I
 
 ```bash
 python setup.py install
+```
+
+#### Conda
+If you use conda, to install mlxtend just execute
+
+```bash
+conda install -c conda-forge mlxtend 
 ```
 
 #### Dev Version

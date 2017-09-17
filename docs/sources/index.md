@@ -7,12 +7,11 @@
 
 
 ![Python 2.7](https://img.shields.io/badge/python-2.7-blue.svg)
-![Python 3.5](https://img.shields.io/badge/python-3.5-blue.svg)
+![Python 3.6](https://img.shields.io/badge/python-3.6-blue.svg)
 [![License](https://img.shields.io/badge/license-BSD-blue.svg)](./license)
 [![PyPI version](https://badge.fury.io/py/mlxtend.svg)](http://badge.fury.io/py/mlxtend)
-[![Join the chat at https://gitter.im/rasbt/mlxtend](https://badges.gitter.im/rasbt/mlxtend.svg)](https://gitter.im/rasbt/mlxtend?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![](https://zenodo.org/badge/doi/10.5281/zenodo.49235.svg)](https://zenodo.org/record/49235#.VwWISmNh23c)
-
+[![](https://zenodo.org/badge/doi/10.5281/zenodo.594432.svg)](https://zenodo.org/record/594432#.VwWISmNh23c)
+[![Discuss](https://img.shields.io/badge/discuss-google_group-blue.svg)](https://groups.google.com/forum/#!forum/mlxtend)
 
 <hr>
 
@@ -82,16 +81,16 @@ plt.show()
 
 If you use mlxtend as part of your workflow in a scientific publication, please consider citing the mlxtend repository with the following DOI:
 
-[![](https://zenodo.org/badge/doi/10.5281/zenodo.49235.svg)](https://zenodo.org/record/49235#.VwWISmNh23c)
+[![](https://zenodo.org/badge/doi/10.5281/zenodo.594432.svg)](https://zenodo.org/record/594432#.VwWISmNh23c)
 
 ```
-@misc{raschkas_2016_49235,
+@misc{raschkas_2016_594432,
   author       = {Raschka, Sebastian},
   title        = {Mlxtend},
   month        = apr,
   year         = 2016,
-  doi          = {10.5281/zenodo.49235},
-  url          = {http://dx.doi.org/10.5281/zenodo.49235}
+  doi          = {10.5281/zenodo.594432},
+  url          = {http://dx.doi.org/10.5281/zenodo.594432}
 }
 ```
 
